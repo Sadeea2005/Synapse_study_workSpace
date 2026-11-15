@@ -50,15 +50,124 @@ function buildDynamicLocalStudySet(rawNotes: string) {
   const text = rawNotes.trim();
   const lower = text.toLowerCase();
 
-  // 1. Check built-in rich domain knowledge bases (React/Frontend, Distributed Systems, Economics, Biology)
-  if (
-    lower.includes('react') ||
-    lower.includes('frontend') ||
-    lower.includes('component') ||
-    lower.includes('hook') ||
-    lower.includes('jsx') ||
-    lower.includes('javascript')
-  ) {
+  // 1. Check built-in rich domain knowledge bases using whole-word regexes
+  if (/\b(atp|glycolysis|mitochondria|mitochondrial|krebs|chemiosmosis|respiration)\b/.test(lower)) {
+    return {
+      title: 'Cellular Energetics & ATP Synthesis',
+      summary:
+        'An exploration of how biological systems capture, transduce, and store chemical energy through cellular respiration, oxidative phosphorylation, and enzyme-catalyzed metabolic pathways.',
+      keyConcepts: ['ATP Hydrolysis', 'Glycolysis', 'Citric Acid Cycle', 'Oxidative Phosphorylation', 'Chemiosmosis'],
+      flashcards: [
+        {
+          id: 'fc-1',
+          front: 'What is the primary role of ATP (Adenosine Triphosphate) in cellular metabolism?',
+          back: 'ATP acts as the primary energy currency of the cell, coupling exergonic (energy-releasing) reactions to endergonic (energy-consuming) cellular processes via phosphate group transfer.',
+          category: 'Bioenergetics',
+          difficulty: 'easy',
+          hint: 'Think about energy coupling between reactions.',
+        },
+        {
+          id: 'fc-2',
+          front: 'Where does glycolysis take place, and what are its net energetic products per glucose molecule?',
+          back: 'Glycolysis occurs in the cytosol and produces a net gain of 2 ATP (via substrate-level phosphorylation), 2 NADH, and 2 pyruvate molecules.',
+          category: 'Glycolysis',
+          difficulty: 'medium',
+          hint: 'It does not require organelles or oxygen.',
+        },
+        {
+          id: 'fc-3',
+          front: 'How does the proton-motive force drive ATP synthesis in mitochondria?',
+          back: 'The electron transport chain pumps H+ ions from the mitochondrial matrix into the intermembrane space. The resulting electrochemical gradient drives protons back through ATP synthase (chemiosmosis).',
+          category: 'Chemiosmosis',
+          difficulty: 'hard',
+          hint: 'Focus on the H+ gradient across the inner mitochondrial membrane.',
+        },
+        {
+          id: 'fc-4',
+          front: 'What is the role of oxygen (O2) in aerobic cellular respiration?',
+          back: 'Oxygen serves as the terminal electron acceptor at the end of the electron transport chain (Complex IV), combining with free protons to form water (H2O).',
+          category: 'Electron Transport',
+          difficulty: 'easy',
+          hint: 'What happens at the very end of the electron transport chain?',
+        },
+        {
+          id: 'fc-5',
+          front: 'How is Phosphofructokinase-1 (PFK-1) allosterically regulated during glycolysis?',
+          back: 'PFK-1 is allosterically inhibited by high levels of ATP and citrate (signaling abundant cellular energy) and activated by AMP (signaling low energy reserves).',
+          category: 'Enzyme Regulation',
+          difficulty: 'hard',
+          hint: 'Think about negative feedback when ATP is already high.',
+        },
+        {
+          id: 'fc-6',
+          front: 'Why do cells perform fermentation under anaerobic conditions?',
+          back: 'Fermentation regenerates NAD+ from NADH in the absence of oxygen so that glycolysis can continue producing 2 net ATP per glucose molecule.',
+          category: 'Anaerobic Metabolism',
+          difficulty: 'medium',
+          hint: 'Glycolysis requires a continuous supply of NAD+.',
+        },
+      ],
+      quiz: [
+        {
+          id: 'qz-1',
+          question: 'Which enzyme catalyzes the committed, rate-limiting step of glycolysis and is regulated by ATP/AMP ratios?',
+          options: ['Hexokinase', 'Phosphofructokinase-1 (PFK-1)', 'Pyruvate kinase', 'Citrate synthase'],
+          correctIndex: 1,
+          explanation: 'Phosphofructokinase-1 (PFK-1) acts as the primary allosteric pacemaker of glycolysis.',
+          topic: 'Enzyme Regulation',
+        },
+        {
+          id: 'qz-2',
+          question: 'If an uncoupling agent makes the inner mitochondrial membrane permeable to protons (H+), what happens?',
+          options: [
+            'ATP synthesis increases rapidly.',
+            'The proton gradient collapses, halting ATP synthesis while electron transport continues generating heat.',
+            'Glycolysis stops immediately in the cytosol.',
+            'Oxygen consumption drops to zero.',
+          ],
+          correctIndex: 1,
+          explanation: 'Uncoupling agents allow protons to bypass ATP synthase, dissipating the proton-motive force as heat.',
+          topic: 'Chemiosmosis',
+        },
+        {
+          id: 'qz-3',
+          question: 'During the Citric Acid (Krebs) Cycle, where are the majority of high-energy electrons captured?',
+          options: [
+            'Directly inside glucose molecules',
+            'In the reduced coenzymes NADH and FADH2',
+            'In cytosolic water molecules',
+            'In the outer mitochondrial membrane',
+          ],
+          correctIndex: 1,
+          explanation: 'The Citric Acid Cycle reduces NAD+ to NADH and FAD to FADH2, which carry electrons to the respiratory chain.',
+          topic: 'Citric Acid Cycle',
+        },
+        {
+          id: 'qz-4',
+          question: 'Why do cells switch to fermentation under anaerobic conditions?',
+          options: [
+            'Fermentation generates 36 ATP per glucose.',
+            'To regenerate NAD+ from NADH so that glycolysis can continue producing ATP.',
+            'To produce oxygen inside the mitochondria.',
+            'To pump protons across the outer membrane.',
+          ],
+          correctIndex: 1,
+          explanation: 'Without oxygen, fermentation oxidizes NADH back to NAD+ so glycolysis does not stall.',
+          topic: 'Anaerobic Metabolism',
+        },
+        {
+          id: 'qz-5',
+          question: 'Which compartment has the lowest pH (highest H+ concentration) during active oxidative phosphorylation?',
+          options: ['Cytosol', 'Mitochondrial matrix', 'Mitochondrial intermembrane space', 'Nucleus'],
+          correctIndex: 2,
+          explanation: 'Complexes I, III, and IV pump protons out of the matrix into the intermembrane space, lowering its pH.',
+          topic: 'Bioenergetics',
+        },
+      ],
+    };
+  }
+
+  if (/\b(react|reactjs|frontend|jsx|tsx|usestate|useeffect|virtual dom)\b/.test(lower)) {
     return {
       title: 'React & Modern Frontend Architecture',
       summary:
@@ -777,37 +886,48 @@ app.post('/api/generate', async (req, res) => {
     let rawOutput = '';
 
     if (config.provider === 'gemini') {
-      const model = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${config.apiKey}`;
-      const timeoutCtrl = new AbortController();
-      const timer = setTimeout(() => timeoutCtrl.abort(), 5000);
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          signal: timeoutCtrl.signal,
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-            contents: [{ role: 'user', parts: [{ text: `Study Notes / Topic:\n\n${notes}` }] }],
-            generationConfig: {
-              responseMimeType: 'application/json',
-              temperature: 0.2,
-            },
-          }),
-        });
-        clearTimeout(timer);
+      const modelsToTry = [
+        process.env.GEMINI_MODEL || 'gemini-2.0-flash',
+        'gemini-1.5-flash',
+        'gemini-3.8-flash',
+      ];
+      let geminiSuccess = false;
 
-        if (!response.ok) {
-          throw new Error(`Gemini HTTP ${response.status}`);
+      for (const model of modelsToTry) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${config.apiKey}`;
+        const timeoutCtrl = new AbortController();
+        const timer = setTimeout(() => timeoutCtrl.abort(), 12000);
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal: timeoutCtrl.signal,
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
+              contents: [{ role: 'user', parts: [{ text: `Study Notes / Topic:\n\n${notes}` }] }],
+              generationConfig: {
+                responseMimeType: 'application/json',
+                temperature: 0.2,
+              },
+            }),
+          });
+          clearTimeout(timer);
+
+          if (response.ok) {
+            const data = (await response.json()) as any;
+            const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            if (candidateText.trim().length > 10) {
+              rawOutput = candidateText;
+              geminiSuccess = true;
+              break;
+            }
+          }
+        } catch (_err) {
+          clearTimeout(timer);
         }
-        const data = (await response.json()) as any;
-        rawOutput = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        if (!rawOutput) {
-          throw new Error('Empty Gemini response');
-        }
-      } catch (_geminiErr) {
-        clearTimeout(timer);
-        // Fast fallback so the user never waits more than a few seconds if Gemini is slow or rate-limited
+      }
+
+      if (!geminiSuccess) {
         rawOutput = JSON.stringify(buildDynamicLocalStudySet(notes));
       }
     } else if (config.provider === 'groq' || config.provider === 'openai' || config.provider === 'openrouter') {
